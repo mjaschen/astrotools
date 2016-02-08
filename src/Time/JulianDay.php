@@ -164,24 +164,33 @@ class JulianDay
      */
     protected function julianDayToDatetime($julianDay)
     {
-        $J = $this->getValue();
+        $J = $julianDay + 0.5;
 
-        $b = 0;
-        $c = $J + 32082;
+        $Z = intval($J);
+        $F = $J - $Z;
 
-        if ($J >= 2299160.5) {
-            $a = $J + 32044;
-            $b = $this->intDiv(4 * $a + 3, 146097);
-            $c = $a - $this->intDiv(146097 * $b, 4);
+        $A = $Z;
+        if ($Z >= 2299161) {
+            $a = $this->intDiv($Z - 1867216.25, 36524.25);
+            $A = $Z + 1 + $a - $this->intDiv($a, 4);
         }
 
-        $d = $this->intDiv(4 * $c + 3, 1461);
-        $e = $c - $this->intDiv(1461 * $d, 4);
-        $m = $this->intDiv(5 * $e + 2, 153);
+        $B = $A + 1524;
+        $C = $this->intDiv($B - 122.1, 365.25);
+        $D = intval(365.25 * $C);
+        $E = $this->intDiv($B - $D, 30.6001);
 
-        $day = $e - $this->intDiv(153 * $m + 2, 5) + 1;
-        $month = $m + 3 - 12 * $this->intDiv($m, 10);
-        $year = 100 * $b + $d - 4800 + $this->intDiv($m, 10);
+        $day = $B - $D - intval(30.6001 * $E) + $F;
+        if ($E < 14) {
+            $month = $E - 1;
+        } else {
+            $month = $E - 13;
+        }
+        if ($month > 2) {
+            $year = $C - 4716;
+        } else {
+            $year = $C - 4715;
+        }
 
         $decimalDayTime = $day - intval($day);
 
@@ -191,9 +200,6 @@ class JulianDay
         $second = $time->getSecond();
 
         $dateTime = new \DateTime(sprintf('%04d-%02d-%02d %02d:%02d:%02d', $year, $month, $day, $hour, $minute, $second), new \DateTimeZone('UTC'));
-
-        // Julian day starts at 12:00:00, so we have to add 12 hours to our timestamp
-        $dateTime->add(new \DateInterval('PT12H'));
 
         return $dateTime;
     }

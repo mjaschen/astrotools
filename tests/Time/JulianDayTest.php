@@ -156,6 +156,14 @@ class JulianDayTest extends PHPUnit_Framework_TestCase
         $this->assertEquals("2457078.9594444", strval($jd));
     }
 
+    public function testSetValueWorksAsExpected()
+    {
+        $jd = new \Astrotools\Time\JulianDay();
+        $jd->setValue(2455987.315970);
+        $expected = new \DateTime('2012-02-29 19:34:59.8', new \DateTimeZone('UTC'));
+        $this->assertEquals($expected, $jd->getDateTime());
+    }
+
     /**
      * @expectedException \InvalidArgumentException
      */
