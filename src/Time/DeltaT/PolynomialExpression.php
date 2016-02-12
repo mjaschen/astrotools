@@ -19,7 +19,16 @@ namespace Astrotools\Time\DeltaT;
 class PolynomialExpression implements DeltaTInterface
 {
     /**
-     * @inheritdoc
+     * Return the value of Delta T for the given decimal year.
+     *
+     * A decimal year is a float value. It's accurate enough to use the month and
+     * year parts of a date to calulcalte the decimal year:
+     *
+     * decimalYear = year + (month - 0.5) / 12
+     *
+     * @param float $year
+     *
+     * @return float
      */
     public function getDeltaT($year)
     {
