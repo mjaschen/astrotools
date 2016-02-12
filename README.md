@@ -4,22 +4,27 @@ Astrotools is a general purpose PHP library for astronomy.
 
 ## Table of Contents
 
+<!-- MarkdownTOC depth=0 autolink=true bracket=round -->
+
 - [Installation](#installation)
 - [Features](#features)
 - [Why not use PHP's calendar extension?](#why-not-use-phps-calendar-extension)
 - [Usage Examples](#usage-examples)
-	- [Calculation of the Julian day from Date/Time](#calculation-of-the-julian-day-from-datetime)
-	- [Calculation of Date/Time from Julian day](#calculation-of-datetime-from-julian-day)
-	- [Calculation of sidereal time for a given Date/Time](#calculation-of-sidereal-time-for-a-given-datetime)
-		- [Greenwich sidereal time](#greenwich-sidereal-time)
-		- [Local sidereal time](#local-sidereal-time)
-	- [Time helper](#time-helper)
-		- [Convert hours, minutes, and seconds to decimal time](#convert-hours-minutes-and-seconds-to-decimal-time)
-		- [Convert decimal time to hours, minutes, and seconds](#convert-decimal-time-to-hours-minutes-and-seconds)
-		- [Convert between time and hour angle](#convert-between-time-and-hour-angle)
-	- [Date of Easter Calculation](#date-of-easter-calculation)
+    - [Calculation of the Julian day from Date/Time](#calculation-of-the-julian-day-from-datetime)
+    - [Calculation of Date/Time from Julian day](#calculation-of-datetime-from-julian-day)
+    - [Calculation of sidereal time for a given Date/Time](#calculation-of-sidereal-time-for-a-given-datetime)
+        - [Greenwich sidereal time](#greenwhich-sidereal)
+        - [Local sidereal time](#local-sidereal-time)
+    - [Time helper](#time-helper)
+        - [Convert hours, minutes, and seconds to decimal time](#decimal-time)
+        - [Convert decimal time to hours, minutes, and seconds](#convert-decimal-time-to-hours-minutes-and-seconds)
+        - [Convert between time and hour angle](#convert-between-time-and-hour-angle)
+    - [Date of Easter Calculation](#date-of-easter-calculation)
+    - [Calculation of ΔT](#calculation-of-δt)
 - [Todo](#todo)
 - [References](#references)
+
+<!-- /MarkdownTOC -->
 
 ## Installation
 
@@ -85,7 +90,7 @@ class DateTime#10 (3) {
 
 ### Calculation of sidereal time for a given Date/Time
 
-#### Greenwich sidereal time
+#### Greenwich sidereal time[greenwhich-sidereal]
 
 ```php
 use Astrotools\Time\SiderealTime;
@@ -123,7 +128,7 @@ The code above produces the output shown below:
 
 ### Time helper
 
-#### Convert hours, minutes, and seconds to decimal time
+#### Convert hours, minutes, and seconds to decimal time[decimal-time]
 
 ```php
 use Astrotools\Helper\Time;
@@ -192,14 +197,43 @@ The code above produces the output shown below:
 2000-04-23
 ```
 
+### Calculation of ΔT
+
+There exist multiple methods to get the value of ΔT for a given (decimal) year. 
+One can lookup the value in [tables](http://maia.usno.navy.mil/) and interpolate 
+it for the wanted date or calculate it using 
+[polynomial expressions](http://eclipse.gsfc.nasa.gov/SEcat5/deltatpoly.html).
+
+*Astrotools* currently provides the calculation of ΔT with polynomial 
+expressions. Reasonably accurate values are provided for the timespan between 
+the years -500 and 2150.
+
+```php
+<?php
+
+use Astrotools\Time\DeltaT\PolynomialExpression;
+
+$deltaT = new PolynomialExpression();
+
+echo $deltaT->getDeltaT(2016.125);
+```
+
+The code above produces the output shown below:
+
+```
+69.568218578125
+```
+
 ## Todo
 
 * Support for microseconds in Julian day calculation
+* Implement ΔT determination by table lookups
 
 ## References
 
 * [Julian day formula - Astronomical Applications Department of the U.S. Naval Observatory](http://aa.usno.navy.mil/faq/docs/JD_Formula.php)
 * [Julian Date Converter - Astronomical Applications Department of the U.S. Naval Observatory](http://aa.usno.navy.mil/data/docs/JulianDate.php)
 * [Julian day - Wikipedia](http://en.wikipedia.org/wiki/Julian_day)
-* [The Julian Period](http://www.tondering.dk/claus/cal/julperiod.php)
+* [ΔT](https://en.wikipedia.org/wiki/%CE%94T)
 * Astronomical Algorithms, Jean Meuss, 1998, ISBN 978-0943396613
+* [Polynomial Expressions For Delta T (ΔT)](http://eclipse.gsfc.nasa.gov/SEcat5/deltatpoly.html)

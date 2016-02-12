@@ -85,4 +85,12 @@ class PolynomialExpressionTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(64.7, $this->deltaT->getDeltaT(2005), '', 0.1);
     }
+
+    /**
+     * @see http://eclipse.gsfc.nasa.gov/SEcat5/deltat.html#tab2
+     */
+    public function testIfCalculationWorksForYear2016dot125()
+    {
+        $this->assertEquals(69.6, $this->deltaT->getDeltaT(2016.125), '', 0.1);
+    }
 }
