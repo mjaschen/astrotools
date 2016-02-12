@@ -13,10 +13,10 @@ Astrotools is a general purpose PHP library for astronomy.
     - [Calculation of the Julian day from Date/Time](#calculation-of-the-julian-day-from-datetime)
     - [Calculation of Date/Time from Julian day](#calculation-of-datetime-from-julian-day)
     - [Calculation of sidereal time for a given Date/Time](#calculation-of-sidereal-time-for-a-given-datetime)
-        - [Greenwich sidereal time](#greenwhich-sidereal)
+        - [Greenwich sidereal time](#greenwich-sidereal-time)
         - [Local sidereal time](#local-sidereal-time)
     - [Time helper](#time-helper)
-        - [Convert hours, minutes, and seconds to decimal time](#decimal-time)
+        - [Convert hours, minutes, and seconds to decimal time](#convert-hours-minutes-and-seconds-to-decimal-time)
         - [Convert decimal time to hours, minutes, and seconds](#convert-decimal-time-to-hours-minutes-and-seconds)
         - [Convert between time and hour angle](#convert-between-time-and-hour-angle)
     - [Date of Easter Calculation](#date-of-easter-calculation)
@@ -90,7 +90,7 @@ class DateTime#10 (3) {
 
 ### Calculation of sidereal time for a given Date/Time
 
-#### Greenwich sidereal time[greenwhich-sidereal]
+#### Greenwich sidereal time
 
 ```php
 use Astrotools\Time\SiderealTime;
@@ -128,7 +128,7 @@ The code above produces the output shown below:
 
 ### Time helper
 
-#### Convert hours, minutes, and seconds to decimal time[decimal-time]
+#### Convert hours, minutes, and seconds to decimal time
 
 ```php
 use Astrotools\Helper\Time;
