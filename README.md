@@ -6,25 +6,31 @@ Astrotools is a general purpose PHP library for astronomy.
 
 <!-- MarkdownTOC depth=0 autolink=true bracket=round -->
 
+- [Requirements](#requirements)
 - [Installation](#installation)
 - [Features](#features)
 - [Why not use PHP's calendar extension?](#why-not-use-phps-calendar-extension)
 - [Usage Examples](#usage-examples)
-    - [Calculation of the Julian day from Date/Time](#calculation-of-the-julian-day-from-datetime)
-    - [Calculation of Date/Time from Julian day](#calculation-of-datetime-from-julian-day)
-    - [Calculation of sidereal time for a given Date/Time](#calculation-of-sidereal-time-for-a-given-datetime)
-        - [Greenwich sidereal time](#greenwich-sidereal-time)
-        - [Local sidereal time](#local-sidereal-time)
-    - [Time helper](#time-helper)
-        - [Convert hours, minutes, and seconds to decimal time](#convert-hours-minutes-and-seconds-to-decimal-time)
-        - [Convert decimal time to hours, minutes, and seconds](#convert-decimal-time-to-hours-minutes-and-seconds)
-        - [Convert between time and hour angle](#convert-between-time-and-hour-angle)
-    - [Date of Easter Calculation](#date-of-easter-calculation)
-    - [Calculation of ΔT](#calculation-of-δt)
+  - [Calculation of the Julian day from Date/Time](#calculation-of-the-julian-day-from-datetime)
+  - [Calculation of Date/Time from Julian day](#calculation-of-datetime-from-julian-day)
+  - [Calculation of sidereal time for a given Date/Time](#calculation-of-sidereal-time-for-a-given-datetime)
+    - [Greenwich sidereal time](#greenwich-sidereal-time)
+    - [Local sidereal time](#local-sidereal-time)
+  - [Time helper](#time-helper)
+    - [Convert hours, minutes, and seconds to decimal time](#convert-hours-minutes-and-seconds-to-decimal-time)
+    - [Convert decimal time to hours, minutes, and seconds](#convert-decimal-time-to-hours-minutes-and-seconds)
+    - [Convert between time and hour angle](#convert-between-time-and-hour-angle)
+  - [Date of Easter Calculation](#date-of-easter-calculation)
+  - [Calculation of ΔT](#calculation-of-δt)
 - [Todo](#todo)
 - [References](#references)
 
 <!-- /MarkdownTOC -->
+
+## Requirements
+
+* PHP >= 7.0
+* *bcmath* extension
 
 ## Installation
 
