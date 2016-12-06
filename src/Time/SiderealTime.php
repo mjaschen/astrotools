@@ -2,8 +2,6 @@
 /**
  * Sidereal Time utitlity class
  *
- * PHP version 5.4
- *
  * @category  Astrotools
  * @package   Time
  * @author    Marcus Jaschen <mjaschen@gmail.com>
@@ -56,13 +54,13 @@ class SiderealTime
     {
         $julianDay = new JulianDay($this->dateTime);
 
-        $T = bcdiv(bcsub(strval($julianDay), '2451545.0'), '36525');
+        $T = bcdiv(bcsub((string) $julianDay, '2451545.0'), '36525');
 
         $T2 = bcpow($T, '2');
         $T3 = bcpow($T, '3');
 
         $term1 = '280.46061837';
-        $term2 = bcmul('360.98564736629', bcsub(strval($julianDay), '2451545.0'));
+        $term2 = bcmul('360.98564736629', bcsub((string) $julianDay, '2451545.0'));
         $term3 = bcmul('0.000387933', $T2);
         $term4 = bcdiv($T3, '38710000');
 
@@ -74,7 +72,7 @@ class SiderealTime
             $term4
         );
 
-        while (bccomp($result, 0) == - 1) {
+        while (bccomp($result, 0) === - 1) {
             $result = bcadd($result, '360');
         }
 
@@ -83,7 +81,7 @@ class SiderealTime
         }
 
         $st = new Time();
-        $st->setHourAngle(floatval($result));
+        $st->setHourAngle((float) $result);
 
         return $st->getValue();
     }

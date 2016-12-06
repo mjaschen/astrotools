@@ -2,8 +2,6 @@
 /**
  * Date of Easter calculation
  *
- * PHP version 5.5
- *
  * @category  Astrotools
  * @package   Time
  * @author    Marcus Jaschen <mjaschen@gmail.com>
@@ -118,6 +116,6 @@ class DateOfEaster
      */
     protected function intDiv($numerator, $denominator)
     {
-        return intval(floor($numerator / $denominator));
+        return (int) floor($numerator / $denominator);
     }
 }

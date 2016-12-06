@@ -2,8 +2,6 @@
 /**
  * Test cases for DateOfEaster class
  *
- * PHP version 5.5
- *
  * @category  Astrotools
  * @package   Test
  * @author    Marcus Jaschen <mjaschen@gmail.com>

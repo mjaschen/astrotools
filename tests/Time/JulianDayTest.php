@@ -2,8 +2,6 @@
 /**
  * Test for Julian Day class
  *
- * PHP version 5.4
- *
  * @category  Astrotools
  * @package   Test
  * @author    Marcus Jaschen <mjaschen@gmail.com>
@@ -153,7 +151,7 @@ class JulianDayTest extends PHPUnit_Framework_TestCase
         $jd = new \Astrotools\Time\JulianDay();
         $jd->setDateTime($dt);
 
-        $this->assertEquals("2457078.9594444", strval($jd));
+        $this->assertEquals('2457078.9594444', (string) $jd);
     }
 
     public function testSetValueWorksAsExpected()

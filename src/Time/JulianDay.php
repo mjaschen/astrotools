@@ -2,8 +2,6 @@
 /**
  * Representation of a Julian Day
  *
- * PHP version 5.5
- *
  * @category  Astrotools
  * @package   Time
  * @author    Marcus Jaschen <mjaschen@gmail.com>
@@ -99,7 +97,7 @@ class JulianDay
      */
     public function __toString()
     {
-        return strval($this->getValue());
+        return (string) $this->getValue();
     }
 
     /**
@@ -134,7 +132,9 @@ class JulianDay
         $dtGregorianCalendarLower = new \DateTime('1582-10-04 24:00:00', new \DateTimeZone('UTC'));
 
         if ($dt > $dtGregorianCalendarLower && $dt < $dtGregorianCalendarUpper) {
-            throw new \InvalidArgumentException("DateTime is between 1582-10-04 24:00:00 and 1582-10-15 00:00:00 and therefore cannot be used.");
+            throw new \InvalidArgumentException(
+                "DateTime is between 1582-10-04 24:00:00 and 1582-10-15 00:00:00 and therefore cannot be used."
+            );
         }
 
         $B = '0';
@@ -150,7 +150,7 @@ class JulianDay
 
         $result = bcadd(bcadd($part1, $part2), $part3);
 
-        return floatval($result);
+        return (float) $result;
     }
 
     /**
@@ -166,7 +166,7 @@ class JulianDay
     {
         $J = $julianDay + 0.5;
 
-        $Z = intval($J);
+        $Z = (int) $J;
         $F = $J - $Z;
 
         $A = $Z;
@@ -177,10 +177,10 @@ class JulianDay
 
         $B = $A + 1524;
         $C = $this->intDiv($B - 122.1, 365.25);
-        $D = intval(365.25 * $C);
+        $D = (int) (365.25 * $C);
         $E = $this->intDiv($B - $D, 30.6001);
 
-        $day = $B - $D - intval(30.6001 * $E) + $F;
+        $day = $B - $D - (int) (30.6001 * $E) + $F;
         if ($E < 14) {
             $month = $E - 1;
         } else {
@@ -192,14 +192,17 @@ class JulianDay
             $year = $C - 4715;
         }
 
-        $decimalDayTime = $day - intval($day);
+        $decimalDayTime = $day - (int) $day;
 
         $time = new Time(24 * $decimalDayTime);
         $hour = $time->getHour();
         $minute = $time->getMinute();
         $second = $time->getSecond();
 
-        $dateTime = new \DateTime(sprintf('%04d-%02d-%02d %02d:%02d:%02d', $year, $month, $day, $hour, $minute, $second), new \DateTimeZone('UTC'));
+        $dateTime = new \DateTime(
+            sprintf('%04d-%02d-%02d %02d:%02d:%02.1f', $year, $month, $day, $hour, $minute, $second),
+            new \DateTimeZone('UTC')
+        );
 
         return $dateTime;
     }

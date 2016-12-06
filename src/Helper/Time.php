@@ -2,14 +2,11 @@
 /**
  * Time utility class
  *
- * PHP version 5.5
- *
  * @category  Astrotools
  * @package   Time
  * @author    Marcus Jaschen <mjaschen@gmail.com>
- * @copyright 1999-2015 MTB-News.de
  * @license   http://www.opensource.org/licenses/mit-license MIT License
- * @link      http://www.mtb-news.de/
+ * @link      https://www.marcusjaschen.de/
  */
 
 namespace Astrotools\Helper;
@@ -21,7 +18,7 @@ namespace Astrotools\Helper;
  * @package  Time
  * @author   Marcus Jaschen <mjaschen@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license MIT License
- * @link     http://www.mtb-news.de/
+ * @link     https://www.marcusjaschen.de/
  */
 class Time
 {
@@ -83,7 +80,7 @@ class Time
      */
     public function getHour()
     {
-        return intval($this->value);
+        return (int) $this->value;
     }
 
     /**
@@ -93,7 +90,7 @@ class Time
      */
     public function getMinute()
     {
-        return intval(($this->value - $this->getHour()) * 60);
+        return (int) (($this->value - $this->getHour()) * 60);
     }
 
     /**
@@ -108,7 +105,7 @@ class Time
         $seconds = (($this->value - $this->getHour()) * 60 - $this->getMinute()) * 60;
 
         if ($intval) {
-            return intval($seconds);
+            return (int) $seconds;
         }
 
         return $seconds;

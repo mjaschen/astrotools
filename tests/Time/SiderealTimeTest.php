@@ -2,8 +2,6 @@
 /**
  * Test cases for SiderealTime class
  *
- * PHP version 5.4
- *
  * @category  Astrotools
  * @package   Test
  * @author    Marcus Jaschen <mjaschen@gmail.com>
@@ -56,6 +54,5 @@ class SiderealTimeTest extends PHPUnit_Framework_TestCase
 
         // 03:09:48.30
         $this->assertEquals(3.1634161794, $st->getLocalSiderealTime(13.5), '', 0.001);
-
     }
 }

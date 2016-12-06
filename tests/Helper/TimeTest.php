@@ -2,8 +2,6 @@
 /**
  * Test cases for Time class
  *
- * PHP version 5.4
- *
  * @category  Astrotools
  * @package   Test
  * @author    Marcus Jaschen <mjaschen@gmail.com>
