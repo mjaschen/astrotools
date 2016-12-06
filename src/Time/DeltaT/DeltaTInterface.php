@@ -1,4 +1,6 @@
 <?php
+declare(strict_types = 1);
+
 /**
  * Interface for Delta T calculation
  *
@@ -25,5 +27,5 @@ interface DeltaTInterface
      *
      * @return float
      */
-    public function getDeltaT($year);
+    public function getDeltaT(float $year): float;
 }

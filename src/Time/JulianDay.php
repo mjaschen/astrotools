@@ -1,4 +1,6 @@
 <?php
+declare(strict_types = 1);
+
 /**
  * Representation of a Julian Day
  *
@@ -49,12 +51,8 @@ class JulianDay
     /**
      * @param float $julianDay
      */
-    public function setValue($julianDay)
+    public function setValue(float $julianDay)
     {
-        if (! is_numeric($julianDay)) {
-            throw new \InvalidArgumentException("Julian Date must be numeric");
-        }
-
         $this->value = $julianDay;
     }
 
@@ -71,9 +69,9 @@ class JulianDay
     /**
      * @return float
      */
-    public function getValue()
+    public function getValue(): float
     {
-        if (is_null($this->value)) {
+        if ($this->value === null) {
             throw new \RuntimeException("Julian Day was not set");
         }
 
@@ -85,7 +83,7 @@ class JulianDay
      *
      * @return \DateTime
      */
-    public function getDateTime()
+    public function getDateTime(): \DateTime
     {
         return $this->julianDayToDatetime($this->value);
     }
@@ -95,7 +93,7 @@ class JulianDay
      *
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return (string) $this->getValue();
     }
@@ -107,7 +105,7 @@ class JulianDay
      *
      * @return float
      */
-    protected function dateTimeToJulianDay(\DateTime $dateTime)
+    protected function dateTimeToJulianDay(\DateTime $dateTime): float
     {
         $dt = $dateTime;
         $dt->setTimezone(new \DateTimeZone('UTC'));
@@ -120,7 +118,7 @@ class JulianDay
         $second = $dt->format('s');
 
         if (bccomp($month, '2') <= 0) {
-            $year = bcsub($year, '1');
+            $year  = bcsub($year, '1');
             $month = bcadd($month, '12');
         }
 
@@ -144,7 +142,7 @@ class JulianDay
             $B = bcadd(bcsub('2', $A), bcdiv($A, '4', 0));
         }
 
-        $part1= bcmul('365.25', bcadd($year, '4716'), 0);
+        $part1 = bcmul('365.25', bcadd($year, '4716'), 0);
         $part2 = bcmul('30.6001', bcadd($month, '1'), 0);
         $part3 = bcsub(bcadd(bcadd($day, $hour), $B), '1524.5');
 
@@ -162,7 +160,7 @@ class JulianDay
      *
      * @return \DateTime
      */
-    protected function julianDayToDatetime($julianDay)
+    protected function julianDayToDatetime(float $julianDay): \DateTime
     {
         $J = $julianDay + 0.5;
 
@@ -194,10 +192,10 @@ class JulianDay
 
         $decimalDayTime = $day - (int) $day;
 
-        $time = new Time(24 * $decimalDayTime);
-        $hour = $time->getHour();
+        $time   = new Time(24 * $decimalDayTime);
+        $hour   = $time->getHour();
         $minute = $time->getMinute();
-        $second = $time->getSecond();
+        $second = $time->getDecimalSecond();
 
         $dateTime = new \DateTime(
             sprintf('%04d-%02d-%02d %02d:%02d:%02.1f', $year, $month, $day, $hour, $minute, $second),
@@ -210,13 +208,13 @@ class JulianDay
     /**
      * Helper method for integer division
      *
-     * @param $numerator
-     * @param $denominator
+     * @param float $numerator
+     * @param float $denominator
      *
      * @return int
      */
-    protected function intDiv($numerator, $denominator)
+    protected function intDiv(float $numerator, float $denominator): int
     {
-        return intval(floor($numerator / $denominator));
+        return (int) floor($numerator / $denominator);
     }
 }

@@ -1,4 +1,6 @@
 <?php
+declare(strict_types = 1);
+
 /**
  * Sidereal Time utitlity class
  *
@@ -50,7 +52,7 @@ class SiderealTime
      *
      * @return float
      */
-    public function getSiderealTime()
+    public function getSiderealTime(): float
     {
         $julianDay = new JulianDay($this->dateTime);
 
@@ -72,7 +74,7 @@ class SiderealTime
             $term4
         );
 
-        while (bccomp($result, 0) === - 1) {
+        while (bccomp($result, '0') === - 1) {
             $result = bcadd($result, '360');
         }
 
@@ -94,7 +96,7 @@ class SiderealTime
      *
      * @return float
      */
-    public function getLocalSiderealTime($longitude)
+    public function getLocalSiderealTime(float $longitude): float
     {
         $st     = $this->getSiderealTime();
         $offset = $longitude / 15;

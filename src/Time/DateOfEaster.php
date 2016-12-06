@@ -1,4 +1,6 @@
 <?php
+declare(strict_types = 1);
+
 /**
  * Date of Easter calculation
  *
@@ -28,9 +30,9 @@ class DateOfEaster
     protected $dateOfEaster;
 
     /**
-     * @param $year
+     * @param int $year
      */
-    public function __construct($year)
+    public function __construct(int $year)
     {
         $this->dateOfEaster = $this->calculateDateOfEaster($year);
     }
@@ -38,7 +40,7 @@ class DateOfEaster
     /**
      * @return \DateTime
      */
-    public function getDate()
+    public function getDate(): \DateTime
     {
         return $this->dateOfEaster;
     }
@@ -50,7 +52,7 @@ class DateOfEaster
      *
      * @return \DateTime
      */
-    protected function calculateDateOfEaster($year)
+    protected function calculateDateOfEaster(int $year): \DateTime
     {
         if ($year >= 1583) {
             return $this->calculateGregorianDateOfEaster($year);
@@ -66,7 +68,7 @@ class DateOfEaster
      *
      * @return \DateTime
      */
-    protected function calculateGregorianDateOfEaster($year)
+    protected function calculateGregorianDateOfEaster(int $year): \DateTime
     {
         $a = $year % 19;
         $b = $this->intDiv($year, 100);
@@ -93,7 +95,7 @@ class DateOfEaster
      *
      * @return \DateTime
      */
-    protected function calculateJulianDateOfEaster($year)
+    protected function calculateJulianDateOfEaster(int $year): \DateTime
     {
         $a = $year % 4;
         $b = $year % 7;
@@ -109,12 +111,12 @@ class DateOfEaster
     /**
      * Helper method for integer division
      *
-     * @param $numerator
-     * @param $denominator
+     * @param float $numerator
+     * @param float $denominator
      *
      * @return int
      */
-    protected function intDiv($numerator, $denominator)
+    protected function intDiv(float $numerator, float $denominator): int
     {
         return (int) floor($numerator / $denominator);
     }

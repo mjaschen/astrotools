@@ -1,4 +1,6 @@
 <?php
+declare(strict_types = 1);
+
 /**
  * Delta T calculation by polynomial epxressions
  *
@@ -30,7 +32,7 @@ class PolynomialExpression implements DeltaTInterface
      *
      * @return float
      */
-    public function getDeltaT($year)
+    public function getDeltaT(float $year): float
     {
         if ($year > 2150) {
             return $this->getDeltaTAfter2150($year);
@@ -91,14 +93,14 @@ class PolynomialExpression implements DeltaTInterface
         return $this->getDeltaTBeforeMinus500($year);
     }
 
-    private function getDeltaTBeforeMinus500($year)
+    private function getDeltaTBeforeMinus500(float $year): float
     {
         $u = ($year - 1820) / 100;
 
         return - 20 + 32 * $u ** 2;
     }
 
-    private function getDeltaTBetweenMinus500And500($year)
+    private function getDeltaTBetweenMinus500And500(float $year): float
     {
         $u = $year / 100;
 
@@ -111,7 +113,7 @@ class PolynomialExpression implements DeltaTInterface
                + 0.0090316521 * $u ** 6;
     }
 
-    private function getDeltaTBetween500and1600($year)
+    private function getDeltaTBetween500and1600(float $year): float
     {
         $u = ($year - 1000) / 100;
 
@@ -124,7 +126,7 @@ class PolynomialExpression implements DeltaTInterface
                + 0.0083572073 * $u ** 6;
     }
 
-    private function getDeltaTBetween1600and1700($year)
+    private function getDeltaTBetween1600and1700(float $year): float
     {
         $u = $year - 1600;
 
@@ -134,7 +136,7 @@ class PolynomialExpression implements DeltaTInterface
                + $u ** 3 / 7129;
     }
 
-    private function getDeltaTBetween1700and1800($year)
+    private function getDeltaTBetween1700and1800(float $year): float
     {
         $u = $year - 1700;
 
@@ -145,7 +147,7 @@ class PolynomialExpression implements DeltaTInterface
                - $u ** 4 / 1174000;
     }
 
-    private function getDeltaTBetween1800and1860($year)
+    private function getDeltaTBetween1800and1860(float $year): float
     {
         $u = $year - 1800;
 
@@ -159,7 +161,7 @@ class PolynomialExpression implements DeltaTInterface
                + 0.000000000875 * $u ** 7;
     }
 
-    private function getDeltaTBetween1860and1900($year)
+    private function getDeltaTBetween1860and1900(float $year): float
     {
         $u = $year - 1860;
 
@@ -171,7 +173,7 @@ class PolynomialExpression implements DeltaTInterface
                + $u ** 5 / 233174;
     }
 
-    private function getDeltaTBetween1900and1920($year)
+    private function getDeltaTBetween1900and1920(float $year): float
     {
         $u = $year - 1900;
 
@@ -182,7 +184,7 @@ class PolynomialExpression implements DeltaTInterface
                - 0.000197 * $u ** 4;
     }
 
-    private function getDeltaTBetween1920and1941($year)
+    private function getDeltaTBetween1920and1941(float $year): float
     {
         $u = $year - 1920;
 
@@ -192,7 +194,7 @@ class PolynomialExpression implements DeltaTInterface
                + 0.0020936 * $u ** 3;
     }
 
-    private function getDeltaTBetween1941and1961($year)
+    private function getDeltaTBetween1941and1961(float $year): float
     {
         $u = $year - 1950;
 
@@ -202,7 +204,7 @@ class PolynomialExpression implements DeltaTInterface
                + $u ** 3 / 2547;
     }
 
-    private function getDeltaTBetween1961and1986($year)
+    private function getDeltaTBetween1961and1986(float $year): float
     {
         $u = $year - 1975;
 
@@ -212,7 +214,7 @@ class PolynomialExpression implements DeltaTInterface
                - $u ** 3 / 718;
     }
 
-    private function getDeltaTBetween1986and2005($year)
+    private function getDeltaTBetween1986and2005(float $year): float
     {
         $u = $year - 2000;
 
@@ -224,7 +226,7 @@ class PolynomialExpression implements DeltaTInterface
                + 0.00002373599 * $u ** 5;
     }
 
-    private function getDeltaTBetween2005and2050($year)
+    private function getDeltaTBetween2005and2050(float $year): float
     {
         $u = $year - 2000;
 
@@ -233,14 +235,14 @@ class PolynomialExpression implements DeltaTInterface
                + 0.005589 * $u ** 2;
     }
 
-    private function getDeltaTBetween2050and2150($year)
+    private function getDeltaTBetween2050and2150(float $year): float
     {
         return - 20
                + 32 * (($year - 1820) / 100) * (($year - 1820) / 100)
                - 0.5628 * (2150 - $year);
     }
 
-    private function getDeltaTAfter2150($year)
+    private function getDeltaTAfter2150(float $year): float
     {
         $u = ($year - 1820) / 100;
 

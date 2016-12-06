@@ -28,11 +28,11 @@ class Time
     protected $value;
 
     /**
-     * @param int|float $hours
-     * @param int $minutes
-     * @param int|float $seconds
+     * @param float $hours
+     * @param float $minutes
+     * @param float $seconds
      */
-    public function __construct($hours = 0, $minutes = 0, $seconds = 0)
+    public function __construct(float $hours = 0.0, float $minutes = 0.0, float $seconds = 0.0)
     {
         $this->calculateValue($hours, $minutes, $seconds);
     }
@@ -40,7 +40,7 @@ class Time
     /**
      * @return float
      */
-    public function getValue()
+    public function getValue(): float
     {
         return $this->value;
     }
@@ -48,7 +48,7 @@ class Time
     /**
      * @param float $value
      */
-    public function setValue($value)
+    public function setValue(float $value)
     {
         $this->value = $value;
     }
@@ -58,7 +58,7 @@ class Time
      *
      * @return float
      */
-    public function getHourAngle()
+    public function getHourAngle(): float
     {
         return $this->value * 15;
     }
@@ -68,7 +68,7 @@ class Time
      *
      * @param float $hourAngle
      */
-    public function setHourAngle($hourAngle)
+    public function setHourAngle(float $hourAngle)
     {
         $this->value = $hourAngle / 15;
     }
@@ -78,7 +78,7 @@ class Time
      *
      * @return int
      */
-    public function getHour()
+    public function getHour(): int
     {
         return (int) $this->value;
     }
@@ -88,37 +88,39 @@ class Time
      *
      * @return int
      */
-    public function getMinute()
+    public function getMinute(): int
     {
         return (int) (($this->value - $this->getHour()) * 60);
     }
 
     /**
-     * Returns the seconds
+     * Returns the seconds as integer.
      *
-     * @param bool $intval
+     * @return int
+     */
+    public function getSecond(): int
+    {
+        return (int) $this->getDecimalSecond();
+    }
+
+    /**
+     * Returns the seconds as float number.
      *
      * @return float
      */
-    public function getSecond($intval = false)
+    public function getDecimalSecond(): float
     {
-        $seconds = (($this->value - $this->getHour()) * 60 - $this->getMinute()) * 60;
-
-        if ($intval) {
-            return (int) $seconds;
-        }
-
-        return $seconds;
+        return (($this->value - $this->getHour()) * 60 - $this->getMinute()) * 60;
     }
 
     /**
      * Calculate decimal hour value
      *
-     * @param float|int $hours
-     * @param int $minutes
-     * @param float|int $seconds
+     * @param float $hours
+     * @param float $minutes
+     * @param float $seconds
      */
-    protected function calculateValue($hours, $minutes, $seconds)
+    protected function calculateValue(float $hours, float $minutes, float $seconds)
     {
         $this->value = $hours + $minutes / 60 + $seconds / 3600;
     }

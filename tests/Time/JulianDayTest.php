@@ -1,4 +1,6 @@
 <?php
+declare(strict_types = 1);
+
 /**
  * Test for Julian Day class
  *
@@ -169,15 +171,6 @@ class JulianDayTest extends PHPUnit_Framework_TestCase
     {
         $dt = new \DateTime('1582-10-05 12:00:00', new \DateTimeZone('UTC'));
         $jd = new \Astrotools\Time\JulianDay($dt);
-    }
-
-    /**
-     * @expectedException \InvalidArgumentException
-     */
-    public function testSetInvalidValueThrowsException()
-    {
-        $jd = new \Astrotools\Time\JulianDay();
-        $jd->setValue('x');
     }
 
     /**

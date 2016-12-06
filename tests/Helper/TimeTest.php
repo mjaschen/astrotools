@@ -1,4 +1,6 @@
 <?php
+declare(strict_types = 1);
+
 /**
  * Test cases for Time class
  *
@@ -40,7 +42,7 @@ class TimeTest extends PHPUnit_Framework_TestCase
         $time = new Time(6.7064260278);
         $this->assertEquals(6, $time->getHour());
         $this->assertEquals(42, $time->getMinute());
-        $this->assertEquals(23.1337, $time->getSecond(), '', 0.0001);
+        $this->assertEquals(23.1337, $time->getDecimalSecond(), '', 0.0001);
     }
 
     public function testGetSecondsAsIntegerWorksAsExpected()
@@ -48,7 +50,7 @@ class TimeTest extends PHPUnit_Framework_TestCase
         $time = new Time(6.7064260278);
         $this->assertEquals(6, $time->getHour());
         $this->assertEquals(42, $time->getMinute());
-        $this->assertEquals(23, $time->getSecond(true));
+        $this->assertEquals(23, $time->getSecond());
     }
 
     public function testGetHourAngleWorksAsExpected()
