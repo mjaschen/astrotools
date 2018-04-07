@@ -20,7 +20,7 @@ declare(strict_types = 1);
  * @license  http://www.opensource.org/licenses/mit-license MIT License
  * @link     https://www.marcusjaschen.de/
  */
-class DateOfEasterTest extends PHPUnit_Framework_TestCase
+class DateOfEasterTest extends \PHPUnit\Framework\TestCase
 {
     public function testDateOfEasterCalculationForYear1991WorksAsExpected()
     {

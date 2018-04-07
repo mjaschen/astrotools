@@ -22,7 +22,7 @@ use Astrotools\Helper\Time;
  * @license  http://www.opensource.org/licenses/mit-license MIT License
  * @link     https://www.marcusjaschen.de/
  */
-class TimeTest extends PHPUnit_Framework_TestCase
+class TimeTest extends \PHPUnit\Framework\TestCase
 {
     public function testSetValueWorksAsExpected()
     {

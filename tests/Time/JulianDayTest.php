@@ -20,7 +20,7 @@ declare(strict_types = 1);
  * @license  http://www.opensource.org/licenses/mit-license MIT License
  * @link     https://www.marcusjaschen.de/
  */
-class JulianDayTest extends PHPUnit_Framework_TestCase
+class JulianDayTest extends \PHPUnit\Framework\TestCase
 {
     public function testConversionDateTimeToJulianDayWorksAsExpected()
     {

@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 use Astrotools\Time\DeltaT\PolynomialExpression;
 
-class PolynomialExpressionTest extends \PHPUnit_Framework_TestCase
+class PolynomialExpressionTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var PolynomialExpression
