@@ -1,26 +1,16 @@
 <?php
-declare(strict_types = 1);
 
-/**
- * Date of Easter calculation
- *
- * @category  Astrotools
- * @package   Time
- * @author    Marcus Jaschen <mjaschen@gmail.com>
- * @license   http://www.opensource.org/licenses/mit-license MIT License
- * @link      https://www.marcusjaschen.de/
- */
+declare(strict_types=1);
 
 namespace Astrotools\Time;
 
 /**
- * Date of Easter calculation
+ * Date of Easter calculation.
  *
  * @category Astrotools
- * @package  Time
  * @author   Marcus Jaschen <mjaschen@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license MIT License
- * @link     https://www.marcusjaschen.de/
+ * @see     https://www.marcusjaschen.de/
  */
 class DateOfEaster
 {
@@ -46,13 +36,13 @@ class DateOfEaster
     }
 
     /**
-     * Actual calculation of the "Date of Easter"
+     * Actual calculation of the "Date of Easter".
      *
      * @param int $year
      *
      * @return \DateTime
      */
-    protected function calculateDateOfEaster(int $year): \DateTime
+    private function calculateDateOfEaster(int $year): \DateTime
     {
         if ($year >= 1583) {
             return $this->calculateGregorianDateOfEaster($year);
@@ -62,13 +52,13 @@ class DateOfEaster
     }
 
     /**
-     * Calculation of the Gregorian Date of Easter
+     * Calculation of the Gregorian Date of Easter.
      *
      * @param int $year
      *
      * @return \DateTime
      */
-    protected function calculateGregorianDateOfEaster(int $year): \DateTime
+    private function calculateGregorianDateOfEaster(int $year): \DateTime
     {
         $a = $year % 19;
         $b = $this->intDiv($year, 100);
@@ -89,13 +79,13 @@ class DateOfEaster
     }
 
     /**
-     * Calculation of the Julian Date of Easter
+     * Calculation of the Julian Date of Easter.
      *
      * @param int $year
      *
      * @return \DateTime
      */
-    protected function calculateJulianDateOfEaster(int $year): \DateTime
+    private function calculateJulianDateOfEaster(int $year): \DateTime
     {
         $a = $year % 4;
         $b = $year % 7;
@@ -109,15 +99,15 @@ class DateOfEaster
     }
 
     /**
-     * Helper method for integer division
+     * Helper method for integer division.
      *
      * @param float $numerator
      * @param float $denominator
      *
      * @return int
      */
-    protected function intDiv(float $numerator, float $denominator): int
+    private function intDiv(float $numerator, float $denominator): int
     {
-        return (int) floor($numerator / $denominator);
+        return (int)floor($numerator / $denominator);
     }
 }

@@ -1,35 +1,30 @@
 <?php
-declare(strict_types = 1);
 
-/**
- * Representation of a Julian Day
- *
- * @category  Astrotools
- * @package   Time
- * @author    Marcus Jaschen <mjaschen@gmail.com>
- * @license   http://www.opensource.org/licenses/mit-license MIT License
- * @link      https://www.marcusjaschen.de/
- */
+declare(strict_types=1);
 
 namespace Astrotools\Time;
 
 use Astrotools\Helper\Time;
+use DateTime;
+use InvalidArgumentException;
+use RuntimeException;
 
 /**
- * Representation of a Julian Day
+ * Representation of a Julian Day.
  *
  * @category Astrotools
- * @package  Time
  * @author   Marcus Jaschen <mail@marcusjaschen.de>
  * @license  http://www.opensource.org/licenses/mit-license MIT License
- * @link     https://www.marcusjaschen.de/
+ * @see     https://www.marcusjaschen.de/
  */
 class JulianDay
 {
     /**
-     * Scale value for BC Math functions
+     * Scale value for BC Math functions.
+     *
+     * @var int
      */
-    const PRECISION_SCALE = 20;
+    public const PRECISION_SCALE = 20;
 
     /**
      * @var float
@@ -37,88 +32,86 @@ class JulianDay
     protected $value;
 
     /**
-     * @param \DateTime $dateTime
+     * @param float $value
      */
-    public function __construct(\DateTime $dateTime = null)
+    public function __construct(float $value)
     {
-        bcscale(static::PRECISION_SCALE);
-
-        if ($dateTime instanceof \DateTime) {
-            $this->value = $this->dateTimeToJulianDay($dateTime);
-        }
+        bcscale(self::PRECISION_SCALE);
+        $this->value = $value;
     }
 
     /**
-     * @param float $julianDay
+     * @param DateTime $dateTime
+     * @return JulianDay
      */
-    public function setValue(float $julianDay)
+    public static function fromDateTime(DateTime $dateTime): self
     {
-        $this->value = $julianDay;
-    }
+        bcscale(self::PRECISION_SCALE);
 
-    /**
-     * Reset the current Julian Day to the given DateTime object
-     *
-     * @param \DateTime $dateTime
-     */
-    public function setDateTime(\DateTime $dateTime)
-    {
-        $this->value = $this->dateTimeToJulianDay($dateTime);
+        return new self(self::dateTimeToJulianDay($dateTime));
     }
 
     /**
      * @return float
+     * @throws RuntimeException
      */
     public function getValue(): float
     {
-        if ($this->value === null) {
-            throw new \RuntimeException("Julian Day was not set");
-        }
-
         return $this->value;
     }
 
     /**
-     * Returns the DateTime object for the current Julian Day
+     * Returns the DateTime object for the current Julian Day.
      *
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getDateTime(): \DateTime
+    public function getDateTime(): DateTime
     {
         return $this->julianDayToDatetime($this->value);
     }
 
     /**
-     * String representation of instance
+     * String representation of instance.
      *
      * @return string
      */
     public function __toString(): string
     {
-        return (string) $this->getValue();
+        return (string)$this->getValue();
     }
 
     /**
-     * Conversion from DateTime object to Julian Day
+     * Conversion from DateTime object to Julian Day.
      *
-     * @param \DateTime $dateTime
+     * @param DateTime $dateTime
      *
      * @return float
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
      */
-    protected function dateTimeToJulianDay(\DateTime $dateTime): float
+    private static function dateTimeToJulianDay(DateTime $dateTime): float
     {
         $dt = $dateTime;
         $dt->setTimezone(new \DateTimeZone('UTC'));
 
-        $year   = $dt->format('Y');
-        $month  = $dt->format('m');
-        $day    = $dt->format('d');
-        $hour   = $dt->format('H');
+        $year = $dt->format('Y');
+        $month = $dt->format('m');
+        $day = $dt->format('d');
+        $hour = $dt->format('H');
         $minute = $dt->format('i');
         $second = $dt->format('s');
 
+        // the following checks and type-casts can be removed once we drop PHP 7.x
+        if (!is_numeric($year) || !is_numeric($month) || !is_numeric($day)) {
+            throw new RuntimeException('Extracting date values failed', 7090776005);
+        }
+
+        if (!is_numeric($hour) || !is_numeric($minute) || !is_numeric($second)) {
+            throw new RuntimeException('Extracting time values failed', 6313957488);
+        }
+
         if (bccomp($month, '2') <= 0) {
-            $year  = bcsub($year, '1');
+            $year = bcsub($year, '1');
             $month = bcadd($month, '12');
         }
 
@@ -126,12 +119,12 @@ class JulianDay
         $hour = bcadd($hour, bcdiv($minute, '1440'));
         $hour = bcadd($hour, bcdiv($second, '86400'));
 
-        $dtGregorianCalendarUpper = new \DateTime('1582-10-15 00:00:00', new \DateTimeZone('UTC'));
-        $dtGregorianCalendarLower = new \DateTime('1582-10-04 24:00:00', new \DateTimeZone('UTC'));
+        $dtGregorianCalendarUpper = new DateTime('1582-10-15 00:00:00', new \DateTimeZone('UTC'));
+        $dtGregorianCalendarLower = new DateTime('1582-10-04 24:00:00', new \DateTimeZone('UTC'));
 
         if ($dt > $dtGregorianCalendarLower && $dt < $dtGregorianCalendarUpper) {
-            throw new \InvalidArgumentException(
-                "DateTime is between 1582-10-04 24:00:00 and 1582-10-15 00:00:00 and therefore cannot be used."
+            throw new InvalidArgumentException(
+                'DateTime is between 1582-10-04 24:00:00 and 1582-10-15 00:00:00 and therefore cannot be used.'
             );
         }
 
@@ -148,23 +141,23 @@ class JulianDay
 
         $result = bcadd(bcadd($part1, $part2), $part3);
 
-        return (float) $result;
+        return (float)$result;
     }
 
     /**
-     * Create the DateTime object for the given Julian Day
+     * Create the DateTime object for the given Julian Day.
      *
-     * @link http://www.tondering.dk/claus/cal/julperiod.php
+     * @see http://www.tondering.dk/claus/cal/julperiod.php
      *
      * @param float $julianDay
      *
-     * @return \DateTime
+     * @return DateTime
      */
-    protected function julianDayToDatetime(float $julianDay): \DateTime
+    private function julianDayToDatetime(float $julianDay): DateTime
     {
         $J = $julianDay + 0.5;
 
-        $Z = (int) $J;
+        $Z = (int)$J;
         $F = $J - $Z;
 
         $A = $Z;
@@ -175,10 +168,10 @@ class JulianDay
 
         $B = $A + 1524;
         $C = $this->intDiv($B - 122.1, 365.25);
-        $D = (int) (365.25 * $C);
+        $D = (int)(365.25 * $C);
         $E = $this->intDiv($B - $D, 30.6001);
 
-        $day = $B - $D - (int) (30.6001 * $E) + $F;
+        $day = $B - $D - (int)(30.6001 * $E) + $F;
         if ($E < 14) {
             $month = $E - 1;
         } else {
@@ -190,14 +183,14 @@ class JulianDay
             $year = $C - 4715;
         }
 
-        $decimalDayTime = $day - (int) $day;
+        $decimalDayTime = $day - (int)$day;
 
-        $time   = new Time(24 * $decimalDayTime);
-        $hour   = $time->getHour();
+        $time = new Time(24 * $decimalDayTime);
+        $hour = $time->getHour();
         $minute = $time->getMinute();
         $second = $time->getDecimalSecond();
 
-        $dateTime = new \DateTime(
+        $dateTime = new DateTime(
             sprintf('%04d-%02d-%02d %02d:%02d:%02.1f', $year, $month, $day, $hour, $minute, $second),
             new \DateTimeZone('UTC')
         );
@@ -206,15 +199,15 @@ class JulianDay
     }
 
     /**
-     * Helper method for integer division
+     * Helper method for integer division.
      *
      * @param float $numerator
      * @param float $denominator
      *
      * @return int
      */
-    protected function intDiv(float $numerator, float $denominator): int
+    private function intDiv(float $numerator, float $denominator): int
     {
-        return (int) floor($numerator / $denominator);
+        return (int)floor($numerator / $denominator);
     }
 }

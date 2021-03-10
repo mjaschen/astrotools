@@ -1,24 +1,16 @@
 <?php
-/**
- * Time utility class
- *
- * @category  Astrotools
- * @package   Time
- * @author    Marcus Jaschen <mjaschen@gmail.com>
- * @license   http://www.opensource.org/licenses/mit-license MIT License
- * @link      https://www.marcusjaschen.de/
- */
+
+declare(strict_types=1);
 
 namespace Astrotools\Helper;
 
 /**
- * Time utility class
+ * Time utility class.
  *
  * @category Astrotools
- * @package  Time
  * @author   Marcus Jaschen <mjaschen@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license MIT License
- * @link     https://www.marcusjaschen.de/
+ * @see     https://www.marcusjaschen.de/
  */
 class Time
 {
@@ -28,13 +20,32 @@ class Time
     protected $value;
 
     /**
+     * @param float $value
+     * @return void
+     */
+    public function __construct(float $value)
+    {
+        $this->value = $value;
+    }
+
+    /**
      * @param float $hours
      * @param float $minutes
      * @param float $seconds
+     * @return Time
      */
-    public function __construct(float $hours = 0.0, float $minutes = 0.0, float $seconds = 0.0)
+    public static function fromTime(float $hours = 0.0, float $minutes = 0.0, float $seconds = 0.0): Time
     {
-        $this->calculateValue($hours, $minutes, $seconds);
+        return new self(self::calculateValue($hours, $minutes, $seconds));
+    }
+
+    /**
+     * @param float $hourAngle
+     * @return Time
+     */
+    public static function fromHourAngle(float $hourAngle): Time
+    {
+        return new self($hourAngle / 15);
     }
 
     /**
@@ -46,15 +57,7 @@ class Time
     }
 
     /**
-     * @param float $value
-     */
-    public function setValue(float $value)
-    {
-        $this->value = $value;
-    }
-
-    /**
-     * Returns the hour angle of the current time (hour value multiplied by 15)
+     * Returns the hour angle of the current time (hour value multiplied by 15).
      *
      * @return float
      */
@@ -64,33 +67,23 @@ class Time
     }
 
     /**
-     * Sets the time given as hour angle
-     *
-     * @param float $hourAngle
-     */
-    public function setHourAngle(float $hourAngle)
-    {
-        $this->value = $hourAngle / 15;
-    }
-
-    /**
-     * Returns the full hours
+     * Returns the full hours.
      *
      * @return int
      */
     public function getHour(): int
     {
-        return (int) $this->value;
+        return (int)$this->value;
     }
 
     /**
-     * Returns the full minutes
+     * Returns the full minutes.
      *
      * @return int
      */
     public function getMinute(): int
     {
-        return (int) (($this->value - $this->getHour()) * 60);
+        return (int)(($this->value - $this->getHour()) * 60);
     }
 
     /**
@@ -100,7 +93,7 @@ class Time
      */
     public function getSecond(): int
     {
-        return (int) $this->getDecimalSecond();
+        return (int)$this->getDecimalSecond();
     }
 
     /**
@@ -114,14 +107,16 @@ class Time
     }
 
     /**
-     * Calculate decimal hour value
+     * Calculate decimal hour value.
      *
      * @param float $hours
      * @param float $minutes
      * @param float $seconds
+     *
+     * @return float
      */
-    protected function calculateValue(float $hours, float $minutes, float $seconds)
+    private static function calculateValue(float $hours, float $minutes, float $seconds): float
     {
-        $this->value = $hours + $minutes / 60 + $seconds / 3600;
+        return $hours + $minutes / 60 + $seconds / 3600;
     }
 }
