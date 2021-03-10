@@ -2,33 +2,6 @@
 
 Astrotools is a general purpose PHP library for astronomy.
 
-## Table of Contents
-
-<!-- MarkdownTOC depth=0 autolink=true bracket=round -->
-
-- [Requirements](#requirements)
-  - [PHP 5](#php-5)
-- [Installation](#installation)
-  - [PHP 5](#php-5-1)
-- [Features](#features)
-- [Why not use PHP's calendar extension?](#why-not-use-phps-calendar-extension)
-- [Usage Examples](#usage-examples)
-  - [Calculation of the Julian day from Date/Time](#calculation-of-the-julian-day-from-datetime)
-  - [Calculation of Date/Time from Julian day](#calculation-of-datetime-from-julian-day)
-  - [Calculation of sidereal time for a given Date/Time](#calculation-of-sidereal-time-for-a-given-datetime)
-    - [Greenwich sidereal time](#greenwich-sidereal-time)
-    - [Local sidereal time](#local-sidereal-time)
-  - [Time helper](#time-helper)
-    - [Convert hours, minutes, and seconds to decimal time](#convert-hours-minutes-and-seconds-to-decimal-time)
-    - [Convert decimal time to hours, minutes, and seconds](#convert-decimal-time-to-hours-minutes-and-seconds)
-    - [Convert between time and hour angle](#convert-between-time-and-hour-angle)
-  - [Date of Easter Calculation](#date-of-easter-calculation)
-  - [Calculation of ΔT](#calculation-of-δt)
-- [Todo](#todo)
-- [References](#references)
-
-<!-- /MarkdownTOC -->
-
 ## Requirements
 
 * PHP >= 7.3
@@ -74,9 +47,9 @@ Please keep in mind, that the 0.0.x branch is no longer maintained and won't get
 
 ## Why not use PHP's calendar extension?
 
-Some of the implemented features (e.g. calculation of Julian day or Date of Easter) are already provided by PHP's [calendar](http://php.net/manual/en/ref.calendar.php) extension.
+Some implemented features (e.g. calculation of Julian day or Date of Easter) are already provided by PHP's [calendar](http://php.net/manual/en/ref.calendar.php) extension.
 
-These functions come with some problems, e. g. `easter_date()` can only calculate the Date of Easter for the timerange of unix timestamps (1970 January 1 to somewhere around 2037/2038).
+These functions come with some problems, e.g. `easter_date()` can only calculate the Date of Easter for the timerange of unix timestamps (1970 January 1 to somewhere around 2037/2038).
 
 ## Usage Examples
 
@@ -86,7 +59,7 @@ These functions come with some problems, e. g. `easter_date()` can only calculat
 use Astrotools\Time\JulianDay;
 
 $timestamp = new \DateTime('2015-02-25 12:01:36', new \DateTimeZone('Europe/Berlin'));
-$jd = new JulianDay($timestamp);
+$jd = JulianDay::fromDateTime($timestamp);
 
 echo $jd->getValue();
 ```
@@ -94,7 +67,7 @@ echo $jd->getValue();
 The code above produces the output shown below:
 
 ```
-2457078.9594444
+2459283.3831366
 ```
 
 ### Calculation of Date/Time from Julian day
@@ -102,8 +75,7 @@ The code above produces the output shown below:
 ```php
 use Astrotools\Time\JulianDay;
 
-$jd = new JulianDay();
-$jd->setValue(2451545.0);
+$jd = new JulianDay(2451545.0);
 
 var_dump($jd->getDateTime());
 ```
@@ -166,7 +138,7 @@ The code above produces the output shown below:
 ```php
 use Astrotools\Helper\Time;
 
-$time = new Time(6, 42, 23.1337);
+$time = Time::fromTime(6, 42, 23.1337);
 
 echo $time->getValue();
 ```
@@ -198,13 +170,11 @@ The code above produces the output shown below:
 ```php
 use Astrotools\Helper\Time;
 
-$time = new Time(6, 42, 23.1337);
+$time = Time::fromTime(6, 42, 23.1337);
 
 echo $time->getHourAngle() . PHP_EOL;
 
-$time->setHourAngle(275);
-
-echo $time->getValue();
+echo Time::fromHourAngle(275)->getValue();
 ```
 
 The code above produces the output shown below:
