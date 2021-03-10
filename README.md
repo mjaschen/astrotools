@@ -31,18 +31,29 @@ Astrotools is a general purpose PHP library for astronomy.
 
 ## Requirements
 
-* PHP >= 7.0
+* PHP >= 7.3
 * *bcmath* extension
 
-### PHP 5
+### Older PHP versions
 
-It's possible to use the 0.0.x branch of Astrotools with PHP 5.4 - 5.6. For details see the next section.
+- 0.1.x branch supports PHP >= 7.0
+- 0.0.x branch supports PHP 5.4 - 5.6. For details see the next section.
 
 ## Installation
 
 ```shell
 composer require mjaschen/astrotools
 ```
+
+### PHP 7.0, PHP 7.1, PHP 7.2
+
+If you need to use Astrotools with PHP 7.0, 7.1 or 7.2 just require version 0.1:
+
+```shell
+composer require mjaschen/astrotools:^0.1.0
+```
+
+Please keep in mind, that the 0.1.x branch is no longer maintained and won't get any updates.
 
 ### PHP 5
 

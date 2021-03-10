@@ -1,35 +1,28 @@
 <?php
-declare(strict_types = 1);
 
-/**
- * Sidereal Time utitlity class
- *
- * @category  Astrotools
- * @package   Time
- * @author    Marcus Jaschen <mjaschen@gmail.com>
- * @license   http://www.opensource.org/licenses/mit-license MIT License
- * @link      https://www.marcusjaschen.de/
- */
+declare(strict_types=1);
 
 namespace Astrotools\Time;
 
 use Astrotools\Helper\Time;
+use RuntimeException;
 
 /**
- * Sidereal Time utitlity class
+ * Sidereal Time utitlity class.
  *
  * @category Astrotools
- * @package  Time
  * @author   Marcus Jaschen <mail@marcusjaschen.de>
  * @license  http://www.opensource.org/licenses/mit-license MIT License
- * @link     https://www.marcusjaschen.de/
+ * @see     https://www.marcusjaschen.de/
  */
 class SiderealTime
 {
     /**
-     * Scale value for BC Math functions
+     * Scale value for BC Math functions.
+     *
+     * @var int
      */
-    const PRECISION_SCALE = 20;
+    public const PRECISION_SCALE = 20;
 
     /**
      * @var \DateTime
@@ -41,7 +34,7 @@ class SiderealTime
      */
     public function __construct(\DateTime $dateTime)
     {
-        bcscale(static::PRECISION_SCALE);
+        bcscale(self::PRECISION_SCALE);
 
         $this->dateTime = $dateTime;
         $this->dateTime->setTimezone(new \DateTimeZone('UTC'));
@@ -51,18 +44,25 @@ class SiderealTime
      * Calculates the sidereal time for the given timestamp.
      *
      * @return float
+     *
+     * @throws RuntimeException
      */
     public function getSiderealTime(): float
     {
-        $julianDay = new JulianDay($this->dateTime);
+        $julianDay = JulianDay::fromDateTime($this->dateTime);
+        $julianDayString = (string)$julianDay;
 
-        $T = bcdiv(bcsub((string) $julianDay, '2451545.0'), '36525');
+        if (!is_numeric($julianDayString)) {
+            throw new RuntimeException('Got no numeric-string for Julian Day', 2416833797);
+        }
+
+        $T = bcdiv(bcsub($julianDayString, '2451545.0'), '36525');
 
         $T2 = bcpow($T, '2');
         $T3 = bcpow($T, '3');
 
         $term1 = '280.46061837';
-        $term2 = bcmul('360.98564736629', bcsub((string) $julianDay, '2451545.0'));
+        $term2 = bcmul('360.98564736629', bcsub($julianDayString, '2451545.0'));
         $term3 = bcmul('0.000387933', $T2);
         $term4 = bcdiv($T3, '38710000');
 
@@ -74,7 +74,7 @@ class SiderealTime
             $term4
         );
 
-        while (bccomp($result, '0') === - 1) {
+        while (bccomp($result, '0') === -1) {
             $result = bcadd($result, '360');
         }
 
@@ -82,10 +82,7 @@ class SiderealTime
             $result = bcsub($result, '360');
         }
 
-        $st = new Time();
-        $st->setHourAngle((float) $result);
-
-        return $st->getValue();
+        return Time::fromHourAngle((float) $result)->getValue();
     }
 
     /**
@@ -98,9 +95,9 @@ class SiderealTime
      */
     public function getLocalSiderealTime(float $longitude): float
     {
-        $st     = $this->getSiderealTime();
+        $siderealTime = $this->getSiderealTime();
         $offset = $longitude / 15;
 
-        return $st + $offset;
+        return $siderealTime + $offset;
     }
 }

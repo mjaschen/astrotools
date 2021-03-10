@@ -1,22 +1,15 @@
 <?php
-declare(strict_types = 1);
 
-/**
- * Delta T calculation by polynomial epxressions
- *
- * @author    Marcus Jaschen <mjaschen@gmail.com>
- * @license   http://www.opensource.org/licenses/mit-license MIT License
- * @link      https://www.marcusjaschen.de/
- */
+declare(strict_types=1);
 
 namespace Astrotools\Time\DeltaT;
 
 /**
- * Delta T calculation by polynomial epxressions
+ * Delta T calculation by polynomial epxressions.
  *
  * @author   Marcus Jaschen <mail@marcusjaschen.de>
  * @license  http://www.opensource.org/licenses/mit-license MIT License
- * @link     https://www.marcusjaschen.de/
+ * @see     https://www.marcusjaschen.de/
  */
 class PolynomialExpression implements DeltaTInterface
 {
@@ -24,7 +17,7 @@ class PolynomialExpression implements DeltaTInterface
      * Return the value of Delta T for the given decimal year.
      *
      * A decimal year is a float value. It's accurate enough to use the month and
-     * year parts of a date to calulcalte the decimal year:
+     * year parts of a date to calculate the decimal year:
      *
      * decimalYear = year + (month - 0.5) / 12
      *
@@ -86,7 +79,7 @@ class PolynomialExpression implements DeltaTInterface
             return $this->getDeltaTBetween500and1600($year);
         }
 
-        if ($year > - 500) {
+        if ($year > -500) {
             return $this->getDeltaTBetweenMinus500And500($year);
         }
 
@@ -97,7 +90,7 @@ class PolynomialExpression implements DeltaTInterface
     {
         $u = ($year - 1820) / 100;
 
-        return - 20 + 32 * $u ** 2;
+        return -20 + 32 * $u ** 2;
     }
 
     private function getDeltaTBetweenMinus500And500(float $year): float
@@ -177,7 +170,7 @@ class PolynomialExpression implements DeltaTInterface
     {
         $u = $year - 1900;
 
-        return - 2.79
+        return -2.79
                + 1.494119 * $u
                - 0.0598939 * $u ** 2
                + 0.0061966 * $u ** 3
@@ -237,7 +230,7 @@ class PolynomialExpression implements DeltaTInterface
 
     private function getDeltaTBetween2050and2150(float $year): float
     {
-        return - 20
+        return -20
                + 32 * (($year - 1820) / 100) * (($year - 1820) / 100)
                - 0.5628 * (2150 - $year);
     }
@@ -246,7 +239,7 @@ class PolynomialExpression implements DeltaTInterface
     {
         $u = ($year - 1820) / 100;
 
-        return - 20
+        return -20
                + 32 * $u ** 2;
     }
 }

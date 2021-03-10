@@ -1,184 +1,154 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
+
+namespace Astrotools\Tests\Time;
 
 /**
- * Test for Julian Day class
- *
- * @category  Astrotools
- * @package   Test
- * @author    Marcus Jaschen <mjaschen@gmail.com>
- * @license   http://www.opensource.org/licenses/mit-license MIT License
- * @link      https://www.marcusjaschen.de/
- */
-
-/**
- * Test for Julian Day class
+ * Test for Julian Day class.
  *
  * @category Astrotools
- * @package  Test
  * @author   Marcus Jaschen <mail@marcusjaschen.de>
  * @license  http://www.opensource.org/licenses/mit-license MIT License
- * @link     https://www.marcusjaschen.de/
+ * @see     https://www.marcusjaschen.de/
  */
-class JulianDayTest extends PHPUnit_Framework_TestCase
+class JulianDayTest extends \PHPUnit\Framework\TestCase
 {
-    public function testConversionDateTimeToJulianDayWorksAsExpected()
+    public function testConversionDateTimeToJulianDayWorksAsExpected(): void
     {
         $dt = new \DateTime('2015-02-25 11:01:36', new \DateTimeZone('UTC'));
-        $jd = new \Astrotools\Time\JulianDay($dt);
+        $jd = \Astrotools\Time\JulianDay::fromDateTime($dt);
 
-        $this->assertEquals(2457078.95944, $jd->getValue(), '', 0.0001);
+        // 2457078.95944
+        self::assertEqualsWithDelta(2457078.95944, $jd->getValue(), 0.0001);
     }
 
-    public function testConversionDateTimeToJulianDayForReferenceDateInYear2000WorksAsExpected()
+    public function testConversionDateTimeToJulianDayForReferenceDateInYear2000WorksAsExpected(): void
     {
         $dt = new \DateTime('2000-01-01 12:00:00', new \DateTimeZone('UTC'));
-        $jd = new \Astrotools\Time\JulianDay($dt);
+        $jd = \Astrotools\Time\JulianDay::fromDateTime($dt);
 
-        $this->assertEquals(2451545.0, $jd->getValue(), '', 0.0001);
+        self::assertEqualsWithDelta(2451545.0, $jd->getValue(), 0.0001);
     }
 
-    public function testConversionDateTimeToJulianDayWithLocalTimezoneWorksAsExpected()
+    public function testConversionDateTimeToJulianDayWithLocalTimezoneWorksAsExpected(): void
     {
         $dt = new \DateTime('2015-02-25 12:01:36', new \DateTimeZone('Europe/Berlin'));
-        $jd = new \Astrotools\Time\JulianDay($dt);
+        $jd = \Astrotools\Time\JulianDay::fromDateTime($dt);
 
-        $this->assertEquals(2457078.95944, $jd->getValue(), '', 0.0001);
+        self::assertEqualsWithDelta(2457078.95944, $jd->getValue(), 0.0001);
     }
 
-    public function testConversionDateTimeToJulianDayBeforeGregorianCalendarBeganWorksAsExpected()
+    public function testConversionDateTimeToJulianDayBeforeGregorianCalendarBeganWorksAsExpected(): void
     {
         $dt = new \DateTime('0333-01-27 12:00:00', new \DateTimeZone('UTC'));
-        $jd = new \Astrotools\Time\JulianDay($dt);
+        $jd = \Astrotools\Time\JulianDay::fromDateTime($dt);
 
-        $this->assertEquals(1842713.0, $jd->getValue(), '', 0.0001);
+        self::assertEqualsWithDelta(1842713.0, $jd->getValue(), 0.0001);
     }
 
-    public function testConversionDateTimeToJulianDayAtGregorianCalendarLowerBoundWorksAsExpected()
+    public function testConversionDateTimeToJulianDayAtGregorianCalendarLowerBoundWorksAsExpected(): void
     {
         $dt = new \DateTime('1582-10-04 24:00:00', new \DateTimeZone('UTC'));
-        $jd = new \Astrotools\Time\JulianDay($dt);
+        $jd = \Astrotools\Time\JulianDay::fromDateTime($dt);
 
-        $this->assertEquals(2299160.5, $jd->getValue(), '', 0.0001);
+        self::assertEqualsWithDelta(2299160.5, $jd->getValue(), 0.0001);
     }
 
-    public function testConversionDateTimeToJulianDayAtGregorianCalendarUpperBoundWorksAsExpected()
+    public function testConversionDateTimeToJulianDayAtGregorianCalendarUpperBoundWorksAsExpected(): void
     {
         $dt = new \DateTime('1582-10-15 00:00:00', new \DateTimeZone('UTC'));
-        $jd = new \Astrotools\Time\JulianDay($dt);
+        $jd = \Astrotools\Time\JulianDay::fromDateTime($dt);
 
-        $this->assertEquals(2299160.5, $jd->getValue(), '', 0.0001);
+        self::assertEqualsWithDelta(2299160.5, $jd->getValue(), 0.0001);
     }
 
-    public function testConversionJulianDayToCalenderWorksAsExpected()
+    public function testConversionJulianDayToCalenderWorksAsExpected(): void
     {
-        $jd = new \Astrotools\Time\JulianDay();
-        $jd->setValue(2457078.95944);
-
+        $jd = new \Astrotools\Time\JulianDay(2457078.95944);
 
         $dt = new \DateTime('2015-02-25 11:01:36', new \DateTimeZone('UTC'));
 
         // allow 1 second offset until we've implemented arbitary precision calculations...
-        $this->assertEquals($dt, $jd->getDateTime(), '', 1);
+        self::assertEqualsWithDelta($dt, $jd->getDateTime(), 1);
     }
 
-    public function testConversionJulianDayToCalenderForReferenceDateInYear2000WorksAsExpected()
+    public function testConversionJulianDayToCalenderForReferenceDateInYear2000WorksAsExpected(): void
     {
-        $jd = new \Astrotools\Time\JulianDay();
-        $jd->setValue(2451545.0);
-
+        $jd = new \Astrotools\Time\JulianDay(2451545.0);
 
         $dt = new \DateTime('2000-01-01 12:00:00', new \DateTimeZone('UTC'));
 
         // allow 1 second offset until we've implemented arbitary precision calculations...
-        $this->assertEquals($dt, $jd->getDateTime(), '', 1);
+        self::assertEqualsWithDelta($dt, $jd->getDateTime(), 1);
     }
 
-    public function testConversionsJulianDayToCalendarBeforeGregorianCalendarBeganWorksAsExpected()
+    public function testConversionsJulianDayToCalendarBeforeGregorianCalendarBeganWorksAsExpected(): void
     {
-        $jd = new \Astrotools\Time\JulianDay();
-        $jd->setValue(1842713.0);
-
+        $jd = new \Astrotools\Time\JulianDay(1842713.0);
 
         $dt = new \DateTime('0333-01-27 12:00:00', new \DateTimeZone('UTC'));
 
         // allow 1 second offset until we've implemented arbitary precision calculations...
-        $this->assertEquals($dt, $jd->getDateTime(), '', 1);
+        self::assertEqualsWithDelta($dt, $jd->getDateTime(), 1);
     }
 
-    public function testConversionsJulianDayToCalendarAtGregorianCalendarLowerBoundWorksAsExpected()
+    public function testConversionsJulianDayToCalendarAtGregorianCalendarLowerBoundWorksAsExpected(): void
     {
-        $jd = new \Astrotools\Time\JulianDay();
-        $jd->setValue(2299160.0);
-
+        $jd = new \Astrotools\Time\JulianDay(2299160.0);
 
         $dt = new \DateTime('1582-10-04 12:00:00', new \DateTimeZone('UTC'));
 
         // allow 1 second offset until we've implemented arbitary precision calculations...
-        $this->assertEquals($dt, $jd->getDateTime(), '', 1);
+        self::assertEqualsWithDelta($dt, $jd->getDateTime(), 1);
     }
 
-    public function testConversionsJulianDayToCalendarAtGregorianCalendarUpperBoundWorksAsExpected()
+    public function testConversionsJulianDayToCalendarAtGregorianCalendarUpperBoundWorksAsExpected(): void
     {
-        $jd = new \Astrotools\Time\JulianDay();
-        $jd->setValue(2299160.5);
-
+        $jd = new \Astrotools\Time\JulianDay(2299160.5);
 
         $dt = new \DateTime('1582-10-15 00:00:00', new \DateTimeZone('UTC'));
 
         // allow 1 second offset until we've implemented arbitary precision calculations...
-        $this->assertEquals($dt, $jd->getDateTime(), '', 1);
+        self::assertEqualsWithDelta($dt, $jd->getDateTime(), 1);
     }
 
-    public function testConvertObjectToStringWorksAsExpected()
+    public function testConvertObjectToStringWorksAsExpected(): void
     {
-        $jd = new \Astrotools\Time\JulianDay();
-        $jd->setValue(2299160.5);
+        $jd = new \Astrotools\Time\JulianDay(2299160.5);
 
-        $this->assertEquals('2299160.5', strval($jd));
+        self::assertSame('2299160.5', (string)$jd);
     }
 
-    public function testSetDateTimeWorksAsExpected()
-    {
-        $dt = new \DateTime('2015-02-25 11:01:36', new \DateTimeZone('UTC'));
-        $jd = new \Astrotools\Time\JulianDay();
-        $jd->setDateTime($dt);
-
-        $this->assertEquals(2457078.95944, $jd->getValue(), '', 0.0001);
-    }
-
-    public function testToStringWorksAsExpected()
+    public function testSetDateTimeWorksAsExpected(): void
     {
         $dt = new \DateTime('2015-02-25 11:01:36', new \DateTimeZone('UTC'));
-        $jd = new \Astrotools\Time\JulianDay();
-        $jd->setDateTime($dt);
+        $jd = \Astrotools\Time\JulianDay::fromDateTime($dt);
 
-        $this->assertEquals('2457078.9594444', (string) $jd);
+        self::assertEqualsWithDelta(2457078.95944, $jd->getValue(), 0.0001);
     }
 
-    public function testSetValueWorksAsExpected()
+    public function testToStringWorksAsExpected(): void
     {
-        $jd = new \Astrotools\Time\JulianDay();
-        $jd->setValue(2455987.315970);
+        $dt = new \DateTime('2015-02-25 11:01:36', new \DateTimeZone('UTC'));
+        $jd = \Astrotools\Time\JulianDay::fromDateTime($dt);
+
+        self::assertSame('2457078.9594444', (string)$jd);
+    }
+
+    public function testSetValueWorksAsExpected(): void
+    {
+        $jd = new \Astrotools\Time\JulianDay(2455987.315970);
         $expected = new \DateTime('2012-02-29 19:34:59.8', new \DateTimeZone('UTC'));
-        $this->assertEquals($expected, $jd->getDateTime());
+
+        self::assertEquals($expected, $jd->getDateTime());
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
-    public function testSetInvalidDateThrowsException()
+    public function testSetInvalidDateThrowsException(): void
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $dt = new \DateTime('1582-10-05 12:00:00', new \DateTimeZone('UTC'));
-        $jd = new \Astrotools\Time\JulianDay($dt);
-    }
-
-    /**
-     * @expectedException \RuntimeException
-     */
-    public function testGetUninitializedValueThrowsException()
-    {
-        $jd = new \Astrotools\Time\JulianDay();
-        $value = $jd->getValue();
+        $jd = \Astrotools\Time\JulianDay::fromDateTime($dt);
     }
 }

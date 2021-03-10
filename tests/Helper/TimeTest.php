@@ -1,68 +1,58 @@
 <?php
-declare(strict_types = 1);
 
-/**
- * Test cases for Time class
- *
- * @category  Astrotools
- * @package   Test
- * @author    Marcus Jaschen <mjaschen@gmail.com>
- * @license   http://www.opensource.org/licenses/mit-license MIT License
- * @link      https://www.marcusjaschen.de/
- */
+declare(strict_types=1);
+
+namespace Astrotools\Tests\Helper;
 
 use Astrotools\Helper\Time;
 
 /**
- * Test cases for Time class
+ * Test cases for Time class.
  *
  * @category Astrotools
- * @package  Test
  * @author   Marcus Jaschen <mail@marcusjaschen.de>
  * @license  http://www.opensource.org/licenses/mit-license MIT License
- * @link     https://www.marcusjaschen.de/
+ * @see     https://www.marcusjaschen.de/
  */
-class TimeTest extends PHPUnit_Framework_TestCase
+class TimeTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSetValueWorksAsExpected()
+    public function testSetValueWorksAsExpected(): void
     {
-        $time = new Time();
-        $time->setValue(10.5);
-        $this->assertEquals(10.5, $time->getValue());
+        $time = new Time(10.5);
+        self::assertSame(10.5, $time->getValue());
     }
 
-    public function testCalculateDecimalTimeWorksAsExpected()
+    public function testCalculateDecimalTimeWorksAsExpected(): void
     {
-        $time = new Time(6, 42, 23.1337);
-        $this->assertEquals(6.7064260278, $time->getValue());
+        $time = Time::fromTime(6, 42, 23.1337);
+        self::assertSame(6.7064260278, $time->getValue());
     }
 
-    public function testGetTimePartsWorksAsExpected()
+    public function testGetTimePartsWorksAsExpected(): void
     {
         $time = new Time(6.7064260278);
-        $this->assertEquals(6, $time->getHour());
-        $this->assertEquals(42, $time->getMinute());
-        $this->assertEquals(23.1337, $time->getDecimalSecond(), '', 0.0001);
+        self::assertSame(6, $time->getHour());
+        self::assertSame(42, $time->getMinute());
+        self::assertEqualsWithDelta(23.1337, $time->getDecimalSecond(), 0.0001);
     }
 
-    public function testGetSecondsAsIntegerWorksAsExpected()
+    public function testGetSecondsAsIntegerWorksAsExpected(): void
     {
         $time = new Time(6.7064260278);
-        $this->assertEquals(6, $time->getHour());
-        $this->assertEquals(42, $time->getMinute());
-        $this->assertEquals(23, $time->getSecond());
+        self::assertSame(6, $time->getHour());
+        self::assertSame(42, $time->getMinute());
+        self::assertSame(23, $time->getSecond());
     }
 
-    public function testGetHourAngleWorksAsExpected()
+    public function testGetHourAngleWorksAsExpected(): void
     {
-        $time = new Time(6, 42, 23.1337);
-        $this->assertEquals(100.596390417, $time->getHourAngle(), '', 0.0001);
+        $time = Time::fromTime(6, 42, 23.1337);
+        self::assertEqualsWithDelta(100.596390417, $time->getHourAngle(), 0.0001);
     }
 
-    public function testSetHourAngleWorksAsExpected()
+    public function testSetHourAngleWorksAsExpected(): void
     {
-        $time = new Time();
-        $time->setHourAngle(100.596390417);
-        $this->assertEquals(6.7064260278, $time->getValue());
+        $time = Time::fromHourAngle(100.596390417);
+        self::assertSame(6.7064260278, $time->getValue());
     }
 }
