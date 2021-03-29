@@ -9,7 +9,7 @@ class Equatorial
     /**
      * @var float
      */
-    private $rectascension;
+    private $rightascension;
 
     /**
      * @var float
@@ -19,18 +19,18 @@ class Equatorial
     /**
      * PolarCoordinates constructor.
      */
-    public function __construct(float $rectascension, float $declination)
+    public function __construct(float $rightascension, float $declination)
     {
-        $this->rectascension = $rectascension;
+        $this->rightascension = $rightascension;
         $this->declination = $declination;
     }
 
     /**
      * @return float
      */
-    public function getRectascension(): float
+    public function getRightascension(): float
     {
-        return $this->rectascension;
+        return $this->rightascension;
     }
 
     /**

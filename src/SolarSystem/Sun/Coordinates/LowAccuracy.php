@@ -46,7 +46,7 @@ class LowAccuracy
         $obliquity = Obliquity::getObliquityOfEclipticRadians($julianCentury);
         $obliquityCorrected = $obliquity + deg2rad(0.00256 * cos(deg2rad($omega)));
 
-        $rectascension = Angle::normalizeDegrees(
+        $rightascension = Angle::normalizeDegrees(
             rad2deg(
                 atan2(
                     cos($obliquityCorrected) * sin($apparentLongitudeRadians),
@@ -58,6 +58,6 @@ class LowAccuracy
             asin(sin($obliquityCorrected) * sin($apparentLongitudeRadians))
         );
 
-        return new Equatorial($rectascension, $declination);
+        return new Equatorial($rightascension, $declination);
     }
 }

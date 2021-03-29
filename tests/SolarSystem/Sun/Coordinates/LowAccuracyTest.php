@@ -16,7 +16,7 @@ class LowAccuracyTest extends TestCase
         $expected = new Equatorial(198.38082, -7.78507);
         $actual = LowAccuracy::getForJulianDay(new JulianDay(2448908.5));
 
-        self::assertEqualsWithDelta($expected->getRectascension(), $actual->getRectascension(), 0.000005);
+        self::assertEqualsWithDelta($expected->getRightascension(), $actual->getRightascension(), 0.000005);
         self::assertEqualsWithDelta($expected->getDeclination(), $actual->getDeclination(), 0.000005);
     }
 }
