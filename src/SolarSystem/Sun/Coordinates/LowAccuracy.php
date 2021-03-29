@@ -29,10 +29,6 @@ class LowAccuracy
         $meanAnomaly = Angle::normalizeDegrees($meanAnomaly);
         $meanAnomalyRadians = deg2rad($meanAnomaly);
 
-        $earthOrbitEccentricity = 0.016708617
-            - 0.000042037 * $julianCenturies2000
-            - 0.0000001236 * $julianCenturies2000 ** 2;
-
         $equationOfCenter = (
                 1.914600
                 - 0.004817 * $julianCenturies2000
