@@ -33,6 +33,11 @@ class Equatorial
         return $this->rightascension;
     }
 
+    public function getRightascensionInHours(): float
+    {
+        return $this->rightascension / 24;
+    }
+
     /**
      * @return float
      */
