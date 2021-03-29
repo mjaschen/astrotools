@@ -7,12 +7,12 @@ namespace Astrotools\Coordinates;
 class Equatorial
 {
     /**
-     * @var float
+     * @var float Right Ascension in degrees
      */
     private $rightascension;
 
     /**
-     * @var float
+     * @var float Declination in degrees
      */
     private $declination;
 
