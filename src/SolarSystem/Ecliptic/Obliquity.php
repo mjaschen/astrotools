@@ -20,4 +20,24 @@ class Obliquity
     {
         return self::getObliquityOfEcliptic($julianCentury) * M_PI / 180;
     }
+
+    public static function getObliquityOfEclipticEpoch2000(): float
+    {
+        return 23.4392911;
+    }
+
+    public static function getObliquityOfEclipticEpoch2000Radians(): float
+    {
+        return self::getObliquityOfEclipticEpoch2000() * M_PI / 180;
+    }
+
+    public static function getObliquityOfEclipticEpoch1950(): float
+    {
+        return 23.4457889;
+    }
+
+    public static function getObliquityOfEclipticEpoch1950Radians(): float
+    {
+        return self::getObliquityOfEclipticEpoch1950() * M_PI / 180;
+    }
 }
