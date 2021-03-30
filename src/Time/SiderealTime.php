@@ -56,10 +56,10 @@ class SiderealTime
             throw new RuntimeException('Got no numeric-string for Julian Day', 2416833797);
         }
 
-        $T = bcdiv(bcsub($julianDayString, '2451545.0'), '36525');
+        $T = new JulianCentury($julianDay, new JulianDay(2451545.0));
 
-        $T2 = bcpow($T, '2');
-        $T3 = bcpow($T, '3');
+        $T2 = bcpow((string)$T->getCenturies(), '2');
+        $T3 = bcpow((string)$T->getCenturies(), '3');
 
         $term1 = '280.46061837';
         $term2 = bcmul('360.98564736629', bcsub($julianDayString, '2451545.0'));
