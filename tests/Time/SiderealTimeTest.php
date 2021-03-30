@@ -32,13 +32,22 @@ class SiderealTimeTest extends \PHPUnit\Framework\TestCase
         self::assertEqualsWithDelta(2.2634161794, $st->getSiderealTime(), 0.001);
     }
 
-    public function testGetSiderealTimeInYear1987WorksAsExpected(): void
+    public function testGetSiderealTime19870410192100WorksAsExpected(): void
     {
         $dt = new \DateTime('1987-04-10 19:21:00', new \DateTimeZone('UTC'));
         $st = new \Astrotools\Time\SiderealTime($dt);
 
-        // 13:10:46.3668
+        // 08h34m57.0896s
         self::assertEqualsWithDelta(8.58252489, $st->getSiderealTime(), 0.001);
+    }
+
+    public function testGetSiderealTime19870410000000WorksAsExpected(): void
+    {
+        $dt = new \DateTime('1987-04-10 00:00:00', new \DateTimeZone('UTC'));
+        $st = new \Astrotools\Time\SiderealTime($dt);
+
+        // 13h10m46.3668s
+        self::assertEqualsWithDelta(13.1795463333, $st->getSiderealTime(), 0.001);
     }
 
     public function testGetLocalSiderealTimeWorksAsExpected(): void
